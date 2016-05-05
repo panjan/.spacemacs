@@ -34,12 +34,12 @@ values."
             shell-default-position 'bottom)
      spell-checking
      syntax-checking
+     ;; version-control
      javascript
      ruby
      (ruby :variables ruby-version-manager 'rvm)
      (ruby :variables ruby-test-runner 'rspec)
      vagrant
-     ;; version-control
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -78,7 +78,7 @@ values."
    ;; variable is `emacs' then the `holy-mode' is enabled at startup. `hybrid'
    ;; uses emacs key bindings for vim's insert mode, but otherwise leaves evil
    ;; unchanged. (default 'vim)
-   dotspacemacs-editing-style 'emacs
+   dotspacemacs-editing-style 'hybrid
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -240,38 +240,31 @@ values."
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
-It is called immediately after `dotspacemacs/init'.  You are free to put almost
-any user code here.  The exception is org related code, which should be placed
-in `dotspacemacs/user-config'."
+It is called immediately after `dotspacemacs/init', before layer configuration
+executes.
+ This function is mostly useful for variables that need to be set
+before packages are loaded. If you are unsure, you should try in setting them in
+`dotspacemacs/user-config' first."
   )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
-layers configuration. You are free to put any user code."
+layers configuration.
+This is the place where most of your configurations should be done. Unless it is
+explicitly specified that a variable should be set before a package is loaded,
+you should place your code here."
 
   ;;   ___                       _
   ;;  / __|___ _ _  ___ _ _ __ _| |
   ;; | (_ / -_) ' \/ -_) '_/ _` | |
   ;;  \___\___|_||_\___|_| \__,_|_|
 
-  ;; line duplication
-  (defun duplicate-line()
-    (interactive)
-    (move-beginning-of-line 1)
-    (kill-line)
-    (yank)
-    (open-line 1)
-    (next-line 1)
-    (yank)
-    )
-  (global-set-key (kbd "M-m x l d") 'duplicate-line)
-
   ;; C-tab for snippet completion
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
   (define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
-  
+
   ;; transparency
   (spacemacs/toggle-transparency)
 
@@ -290,9 +283,6 @@ layers configuration. You are free to put any user code."
   ;; | || / _` \ V / _` (_-</ _| '_| | '_ \  _|
   ;;  \__/\__,_|\_/\__,_/__/\__|_| |_| .__/\__|
   ;;                                 |_|
-  ;; npm install -g tern
-  ;; npm install -g js-beautify
-  ;; npm install -g jshint
 
   (setq-default js-indent-level 2)
   (setq-default js2-basic-offset 2)
@@ -300,16 +290,3 @@ layers configuration. You are free to put any user code."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
- '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
