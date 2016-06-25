@@ -40,6 +40,8 @@ values."
      (ruby :variables ruby-version-manager 'rvm)
      (ruby :variables ruby-test-runner 'rspec)
      vagrant
+     yaml
+     haskell
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -100,13 +102,13 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
+   dotspacemacs-themes '(zenburn
+                         monokai
+                         solarized-dark
                          spacemacs-light
                          solarized-light
-                         solarized-dark
-                         leuven
-                         monokai
-                         zenburn)
+                         spacemacs-dark
+                         leuven)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -265,8 +267,16 @@ you should place your code here."
   (define-key yas-minor-mode-map (kbd "TAB") nil)
   (define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
 
-  ;; transparency
+  ;; appearance
   (spacemacs/toggle-transparency)
+  (set-face-attribute 'default nil :height 150)
+
+  ;; docker
+  (use-package dockerfile-mode
+    :ensure t)
+
+  ;; differentiate C-i from TAB
+  (define-key input-decode-map "\C-i" [C-i])
 
   ;;  ___      _
   ;; | _ \_  _| |__ _  _
@@ -277,6 +287,10 @@ you should place your code here."
   ;; rspec snippets
   (eval-after-load 'rspec-mode
     '(rspec-install-snippets))
+
+  ;; puts macro
+  (evil-set-register ?p
+                     [?o ?p ?u ?t ?s ?  ?\' escape ?2 ?0 ?a ?> escape ?o ?p ?u ?t ?s ? ])
 
   ;;     _                          _      _
   ;;  _ | |__ ___ ____ _ ___ __ _ _(_)_ __| |_
@@ -290,3 +304,18 @@ you should place your code here."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:background nil))))
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil))))
+ '(evil-search-highlight-persist-highlight-face ((t (:inherit region)))))
