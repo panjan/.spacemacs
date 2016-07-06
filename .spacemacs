@@ -267,8 +267,7 @@ you should place your code here."
   (define-key yas-minor-mode-map (kbd "TAB") nil)
   (define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
 
-  ;; appearance
-  (spacemacs/toggle-transparency)
+  ;; font-size
   (set-face-attribute 'default nil :height 150)
 
   ;; docker
