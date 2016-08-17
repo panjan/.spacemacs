@@ -42,6 +42,8 @@ values."
      vagrant
      yaml
      haskell
+     html
+     spell-checking
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -270,9 +272,9 @@ you should place your code here."
   ;; font-size
   (set-face-attribute 'default nil :height 150)
 
-  ;; docker
-  (use-package dockerfile-mode
-    :ensure t)
+  ;; ;; docker
+  ;; (use-package dockerfile-mode
+  ;;   :ensure t)
 
   ;; differentiate C-i from TAB
   (define-key input-decode-map "\C-i" [C-i])
@@ -308,7 +310,7 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(projectile-globally-ignored-files (quote ("TAGS" "node_modules"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
