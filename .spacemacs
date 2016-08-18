@@ -301,6 +301,17 @@ you should place your code here."
 
   (setq-default js-indent-level 2)
   (setq-default js2-basic-offset 2)
+
+  ;; test runner
+  (use-package mocha
+    :ensure t)
+  (spacemacs/set-leader-keys-for-major-mode 'js2-mode (kbd "t t") 'mocha-test-at-point)
+  (spacemacs/set-leader-keys-for-major-mode 'js2-mode (kbd "t b") 'mocha-test-file)
+  (spacemacs/set-leader-keys-for-major-mode 'js2-mode (kbd "t a") 'mocha-test-project)
+
+  ;; mocha snippets
+  (use-package mocha-snippets
+    :ensure t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -310,6 +321,7 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(js2-strict-trailing-comma-warning nil)
  '(projectile-globally-ignored-files (quote ("TAGS" "node_modules"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
