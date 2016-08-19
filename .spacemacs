@@ -322,7 +322,9 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(js2-strict-trailing-comma-warning nil)
- '(projectile-globally-ignored-files (quote ("TAGS" "node_modules"))))
+ '(projectile-globally-ignored-directories
+   (quote
+    (".idea" ".eunit" ".git" ".hg" ".fslckout" ".bzr" "_darcs" ".tox" ".svn" ".stack-work" "node_modules"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
