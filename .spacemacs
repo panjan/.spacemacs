@@ -44,6 +44,7 @@ values."
      haskell
      html
      spell-checking
+     react
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -279,6 +280,10 @@ you should place your code here."
   ;; differentiate C-i from TAB
   (define-key input-decode-map "\C-i" [C-i])
 
+  ;; colors highlighting
+  (use-package rainbow-mode
+    :ensure t)
+
   ;;  ___      _
   ;; | _ \_  _| |__ _  _
   ;; |   / || | '_ \ || |
@@ -293,26 +298,55 @@ you should place your code here."
   (evil-set-register ?p
                      [?o ?p ?u ?t ?s ?  ?\' escape ?2 ?0 ?a ?> escape ?o ?p ?u ?t ?s ? ])
 
+  ;; C-x C-q in rspec-compilation-mode
+  ;; useful for debugging tests with byebug
+  (inf-ruby-switch-setup)
+
   ;;     _                          _      _
   ;;  _ | |__ ___ ____ _ ___ __ _ _(_)_ __| |_
   ;; | || / _` \ V / _` (_-</ _| '_| | '_ \  _|
   ;;  \__/\__,_|\_/\__,_/__/\__|_| |_| .__/\__|
   ;;                                 |_|
 
-  (setq-default js-indent-level 2)
-  (setq-default js2-basic-offset 2)
+  ;; indentation
+  (setq-default
+   js-indent-level 2
+   ;; js2-mode
+   js2-basic-offset 2
+   ;; web-mode
+   css-indent-offset 2
+   web-mode-markup-indent-offset 2
+   web-mode-css-indent-offset 2
+   web-mode-code-indent-offset 2
+   web-mode-attr-indent-offset 2)
 
   ;; test runner
-  (use-package mocha
-    :ensure t)
+  (use-package mocha)
   (spacemacs/set-leader-keys-for-major-mode 'js2-mode (kbd "t t") 'mocha-test-at-point)
   (spacemacs/set-leader-keys-for-major-mode 'js2-mode (kbd "t b") 'mocha-test-file)
   (spacemacs/set-leader-keys-for-major-mode 'js2-mode (kbd "t a") 'mocha-test-project)
 
   ;; mocha snippets
-  (use-package mocha-snippets
-    :ensure t)
+  ;; (use-package mocha-snippets
+  ;;   :ensure t)
+
+  ;; console.log macro
+  (evil-set-register ?c
+                     [?o ?c ?o ?n ?s ?o ?l ?e ?. ?l ?o ?g ?\( ?\' escape ?2 ?0 ?a ?> escape ?a ?' escape ?o ?c ?o ?n ?s ?o ?l ?e ?. ?l ?o ?g ?( ])
+
+  ;; use local eslint
+  (add-hook 'js2-mode-hook 'js2-mode-setup)
+  (defun js2-mode-setup ()
+    (let ((local-eslint (expand-file-name "node_modules/.bin/eslint" (projectile-project-root))))
+      (when (file-exists-p local-eslint)
+        (setq flycheck-javascript-eslint-executable local-eslint)
+        (js2-mode-hide-warnings-and-errors)
+        (flycheck-mode t)
+        (flycheck-select-checker 'javascript-eslint))))
+
   )
+
+
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
